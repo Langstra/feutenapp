@@ -11,7 +11,7 @@ echo $thispage->starting('De app','user');
 					<ol>
 						<li>Navigeer naar Settings->Security (Instellingen->Beveiliging)</li>
 						<li>Zet 'Unknown sources' (Onbekende bronnen) aan</li>
-						<li><a href="http://frisenfeutig.nl/app/android.apk" class="btn btn-primary">Download de app op je telefoon</a></li>
+						<li><a href="app/fris_en_feutig.apk" class="btn btn-primary">Download de app op je telefoon</a></li>
 						<li>Open 'android.apk' op je telefoon en installeer de app!</li>
 						<li>Deel uit je minpunten</li>
 					</ol>
