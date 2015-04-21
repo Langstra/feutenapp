@@ -1,0 +1,16 @@
+Options +FollowSymLinks
+RewriteEngine On
+
+RewriteCond %{SCRIPT_FILENAME} !-d
+RewriteCond %{SCRIPT_FILENAME} !-f
+
+RewriteRule ^home/?$ index.php [NC,QSA]
+RewriteRule ^register/?([0-9]*)/?$ register.php?noob=$1 [NC,QSA]
+RewriteRule ^statistics/?$ stats.php [NC,QSA]
+RewriteRule ^logout/?$ index.php?logout=1 [NC,QSA]
+RewriteRule ^noob/?([0-9]*)$ noob.php?noob=$1 [NC,QSA]
+RewriteRule ^app/?$ app.php [NC,QSA]
+RewriteRule ^add_boardmember/?$ add_boardmember.php [NC,QSA]
+RewriteRule ^edit_password/?$ edit_password.php [NC,QSA]
+RewriteRule ^register_association/?$ register_association.php [NC,QSA]
+RewriteRule ^login/?$ login.php [NC,QSA]

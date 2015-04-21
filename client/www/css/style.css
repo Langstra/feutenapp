@@ -1,0 +1,43 @@
+/* Empty. Add your own CSS if you like */
+#take_picture {
+    font-size: 100px;
+}
+#noob_image {
+    width: 100%;
+}
+
+.negative_points {
+    float: right;
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.noob_selection {
+    width: 80px;
+    border-radius: 80px;
+}
+
+.noob_is_selected {
+    -webkit-filter: brightness(0.5);
+    filter: brightness(0.5);
+}
+
+textarea {
+    height: 60px;
+}
+
+.add_proof_icons {
+    font-size: 60px;
+}
+
+#noob_scroll_height {
+    height: 100px;
+}
+
+.proof_preview {
+    display: none;
+}
+
+.proof_preview_icon {
+    font-size: 30px;
+}

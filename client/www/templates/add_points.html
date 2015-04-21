@@ -1,0 +1,46 @@
+<ion-view title="Pak de feut(en) aan!">
+    <ion-nav-buttons side="right">
+        <button class="button button-icon icon ion-android-send" ng-click="add_points()"></button>
+    </ion-nav-buttons>
+    <ion-content has-header="true" padding="false">
+
+        <div class="list">
+            <div class="item" id="noob_scroll_height">
+                <ion-content direction="x">
+                <div class="row" style="width: {{scroll_pane_width}}">
+                    <div class="col" ng-click="toggle_noob(noob.id)" ng-repeat="noob in noobs">
+                        <img ng-src="{{noob.img_url}}" class="noob_selection" ng-class="{noob_is_selected: noob.selected}">
+                    </div>
+                </div>
+                </ion-content>
+            </div>
+            <div class="item">
+                <label class="item item-input item-stacked-label">
+                    <span class="input-label">Tekstuele reden</span>
+                    <textarea ng-model="noob.reason_text"></textarea>
+                </label>
+            </div>
+            <label class="item item-input">
+                <span class="input-label">Minpunten</span>
+                <input type="number" ng-model="noob.points">
+            </label>
+            <div class="item add_proof_icons">
+                <i class="icon proof_icon ion-android-camera" ng-click="capture_image()"></i>
+                <i class="icon proof_icon ion-android-image" ng-click="view_gallery()"></i>
+            </div>
+            <div class="item proof_preview item-button-right">
+                Bekijk bewijs
+                <div class="button-bar">
+                    <button class="button button-positive" ng-click="view_proof()">
+                        <i class="icon ion-android-film proof_preview_icon"></i>
+                    </button>
+                    <button class="button button-positive" ng-click="remove_proof()">
+                        <i class="icon ion-android-remove proof_preview_icon"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+    </ion-content>
+</ion-view>

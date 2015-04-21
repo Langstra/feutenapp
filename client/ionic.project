@@ -1,0 +1,11 @@
+{
+  "name": "feutenapp",
+  "app_id": "308c8f77",
+  "browsers": [
+    {
+      "platform": "android",
+      "browser": "crosswalk",
+      "version": "11.40.277.7"
+    }
+  ]
+}

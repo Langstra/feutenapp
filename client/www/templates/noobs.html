@@ -1,0 +1,33 @@
+<ion-view title="Feuten">
+
+<ion-nav-buttons side="right">
+    <button class="button button-icon icon ion-android-person-add" ui-sref="add_noob"></button>
+    <button class="button button-icon icon ion-social-freebsd-devil" ng-click="add_points(-1, 0)"></button>
+</ion-nav-buttons>
+
+<ion-content padding="true">
+    <ion-refresher
+            pulling-text="Pull to refresh..."
+            on-refresh="refreshNoobs()">
+    </ion-refresher>
+    <ion-list can-swipe="true">
+        <ion-item ui-sref="noob({noob_id: noob.id })" ng-repeat="noob in noobs"
+                  class="item-thumbnail-left">
+
+            <img ng-src="{{noob.img_url}}">
+            <h2>{{noob.name}}</h2>
+            Deze feut heeft al {{noob.total}} minpunten gescoord, feut!
+            <ion-option-button class="button-assertive"
+                               ng-click="add_points(noob.id, 1)">
+                Punish
+            </ion-option-button>
+
+            <ion-option-button class="button-positive"
+                               ng-click="add_points(noob.id, -1)">
+                Reward
+            </ion-option-button>
+
+        </ion-item>
+    </ion-list>
+</ion-content>
+</ion-view>

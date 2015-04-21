@@ -1,0 +1,23 @@
+@charset "utf-8";
+/* CSS Document */
+
+input[name='noob[]'] {
+	display: none;
+}
+
+label.checkbox-inline img:hover, label.checkbox-inline input:checked~img {
+	box-shadow: 0 0 20px #1d428a;
+}
+
+.sidebar-nav p {
+	color: #aaa;
+}
+
+.noob-img {
+	max-width: 300px;
+}
+
+#android {
+	background-color: #1d428a;
+	padding-top: 100px;
+}

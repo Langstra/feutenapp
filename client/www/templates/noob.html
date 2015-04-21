@@ -1,0 +1,17 @@
+<ion-view title="Feutenacties van {{noob.name}}">
+
+    <ion-content padding="true">
+        <ion-refresher
+                pulling-text="Pull to refresh..."
+                on-refresh="refreshNoobActions()">
+        </ion-refresher>
+        <ion-list can-swipe="true">
+            <ion-item ng-repeat="action in noob_actions">
+
+                <span class="negative_points">{{-action.amount}}</span>
+                {{action.reason_text}}
+
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>
