@@ -3,7 +3,7 @@
  */
 angular.module('noob-app')
 
-    .controller('NoobsCtrl', function($scope, $state, $ionicNavBarDelegate, $ionicHistory, NoobService, noobs) {
+    .controller('NoobsCtrl', function($scope, $state, $ionicNavBarDelegate, $ionicHistory, NoobService, noobs, LoginService) {
 
         $scope.noobs = noobs;
 
@@ -18,6 +18,14 @@ angular.module('noob-app')
 
         $scope.add_points = function(noob_id, points) {
             $state.go('add_points', {noob_id: noob_id, points: points});
+        }
+
+        $scope.logout = function() {
+            LoginService.logout();
+            $ionicHistory.nextViewOptions({
+                disableBack: true
+            });
+            $state.go('login');
         }
 
     })

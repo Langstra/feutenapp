@@ -9,11 +9,7 @@ angular.module('noob-app')
             $state.go('noobs');
         }
 
-        $ionicHistory.nextViewOptions({
-            disableBack: true
-        });
-
-        $scope.credentials = {username: 'kortstraw', password: 'f3'}
+        $scope.credentials = {username: '', password: ''}
 
         $scope.login = function() {
             $ionicLoading.show({
@@ -22,6 +18,9 @@ angular.module('noob-app')
             });
             LoginService.login($scope.credentials.username, $scope.credentials.password).then(
                 function(token) {
+                    $ionicHistory.nextViewOptions({
+                        disableBack: true
+                    });
                     $state.go('noobs');
                 },
                 function() {

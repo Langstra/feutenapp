@@ -178,6 +178,10 @@ angular.module('noob-app')
                 o[key][k] = data[k];
             }
             this.setObject(object, o);
+        },
+
+        clear_all: function() {
+            $window.localStorage.clear();
         }
 
     }

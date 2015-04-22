@@ -77,4 +77,8 @@ angular.module('noob-app')
         this.isLoggedIn = function () {
             return LocalStorage.get('loggedIn');
         }
+
+        this.logout = function() {
+            LocalStorage.clear_all();
+        }
     })
