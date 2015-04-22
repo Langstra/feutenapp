@@ -4,5 +4,7 @@
 client/node_modules/
 client/platforms/
 client/plugins/
+client/resources/
 client/.idea/workspace.xml
-
+client/*.apk
+client/*.keystore

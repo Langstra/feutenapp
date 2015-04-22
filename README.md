@@ -144,6 +144,12 @@ token
 ##### on failure
 false
 
+Plugins used
+============
+``
+cordova plugin add org.apache.cordova.camera org.apache.cordova.file org.apache.cordova.file-transfer https://github.com/pwlin/cordova-plugin-file-opener2
+``
+
 
 Build the app for release
 =========================
