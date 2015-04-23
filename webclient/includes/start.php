@@ -28,11 +28,18 @@ if (isset($_SESSION['token']))
 
 include("includes/page.class.php");
 $connection = Tivoka\Client::connect("http://frisenfeutig.nl/server/");
-if (isset($token))
+try
 {
-	$user_association = $connection->sendRequest('get_user_association', array('token'=>$token))->result;
+	if (isset($token))
+	{
+		$user_association = $connection->sendRequest('get_user_association', array('token'=>$token))->result;
+	}
+	else
+	{
+		$user_association = NULL;
+	}
 }
-else
+catch (Exception $ex)
 {
 	$user_association = NULL;
 }
