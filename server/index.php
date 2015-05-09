@@ -43,15 +43,23 @@ $server = array(
 	'add_points' => function($params) {
 		try
 		{
-			$data = q("SELECT id FROM associations WHERE id = (SELECT associations_id FROM board_members WHERE id = (SELECT board_members_id FROM auth_tokens WHERE token=?))",array($params['token']));
-			$association = f($data);
-			q("INSERT INTO points (reason_text, reason_file, create_time, amount) VALUES (?,?,".time().",?)",array($params['reason_text'],$params['reason_file'],$params['amount']));
-			$points_id = last();
-			foreach ($params['noob_ids'] as $n)
+			$board_member = q("SELECT board_members_id FROM auth_tokens WHERE token=?",array($params['token']));
+			if (n($board_member)>0)
 			{
-				q("INSERT INTO noobs_has_points (noobs_id, points_id) VALUES (?,?)",array($n,$points_id));
+				$board_member = f($board_member);
+				q("INSERT INTO points (reason_text, reason_file, create_time, amount) VALUES (?,?,".time().",?)",array($params['reason_text'],$params['reason_file'],$params['amount']));
+				$points_id = last();
+				q("INSERT INTO board_members_has_points (board_members_id, points_id) VALUES (?,?)", array($board_member[0]['board_members_id'],$points_id));
+				foreach ($params['noob_ids'] as $n)
+				{
+					q("INSERT INTO noobs_has_points (noobs_id, points_id) VALUES (?,?)",array($n,$points_id));
+				}
+				return true;
 			}
-			return true;
+			else
+			{
+				return false;
+			}
 		}
 		catch (PDOException $ex)
 		{

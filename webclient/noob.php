@@ -11,7 +11,7 @@ else
 {
 echo $thispage->starting('Punten van '.$noob['name'],'user');
 	?>
-	<img class="img-responsive img-circle" src="<?=$noob['img_url']?>" width="150">
+	<img class="img-responsive img-circle noob-face" src="<?=$noob['img_url']?>" width="150">
 	<a class="btn btn-danger" href="register/<?=$noob['id']?>">
 		<span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
 	</a>

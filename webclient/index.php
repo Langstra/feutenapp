@@ -27,7 +27,7 @@ try
 			<div class="panel panel-primary">
 				<div class="panel-body">
 					<h2><a href="noob/<?=$n['id']?>"><?=$n['name']?></a></h2>
-					<a href="noob/<?=$n['id']?>"><img class="img-responsive img-circle" src="<?=$n['img_url']?>" width="150"></a>
+					<a href="noob/<?=$n['id']?>"><img class="img-responsive img-circle noob-face" src="<?=$n['img_url']?>" width="150"></a>
 					<div class="pull-left">
 						<h4>Minpunten:</h4>
 						<h2><?=$n['total']?></h2>

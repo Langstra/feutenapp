@@ -17,6 +17,11 @@ label.checkbox-inline img:hover, label.checkbox-inline input:checked~img {
 	max-width: 300px;
 }
 
+.noob-face {
+	max-width: 80px;
+	clip: rect(0px,80px,80px,0px);
+}
+
 #android {
 	background-color: #1d428a;
 	padding-top: 100px;

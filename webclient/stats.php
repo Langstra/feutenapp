@@ -27,12 +27,12 @@ if ($noobs->result)
 		<div class="col-md-6">
 			<h2>Grootste feut</h2>
 			<h4><a href="noob/<?=$biggest_noob['id']?>"><?=$biggest_noob['name']?> (<?=$biggest_noob['total']?> minpunten)</a></h4>
-			<img class="img-responsive img-circle" src="<?=$biggest_noob['img_url']?>" width="150">
+			<img class="img-responsive img-circle noob-face" src="<?=$biggest_noob['img_url']?>" width="150">
 		</div>
 		<div class="col-md-6">
 			<h2>Minst gefeute feut</h2>
 			<h4><a href="noob/<?=$smallest_noob['id']?>"><?=$smallest_noob['name']?> (<?=$smallest_noob['total']?> minpunten)</a></h4>
-			<img class="img-responsive img-circle" src="<?=$smallest_noob['img_url']?>" width="150">
+			<img class="img-responsive img-circle noob-face" src="<?=$smallest_noob['img_url']?>" width="150">
 		</div>
 	</div>
 	<div class="row">

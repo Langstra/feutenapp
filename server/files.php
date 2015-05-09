@@ -15,7 +15,7 @@ if (n(q("SELECT id FROM auth_tokens WHERE token=?",array($_GET['token'])))>0)
 	else
 	{
 		if(move_uploaded_file($tmp_name, $move_to)) {
-			echo 'http://'.$_SERVER['SERVER_NAME'].'/'.$move_to;
+			echo 'http://'.$_SERVER['SERVER_NAME'].'/server/'.$move_to;
 		}
 		else
 		{

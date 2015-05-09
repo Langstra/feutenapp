@@ -6,14 +6,15 @@ echo $thispage->starting('Minpunt registreren','user');
 <?php
 if (isset($_POST['register']) && isset($_POST['noob']))
 {
-	if (isset($_FILES['reason_file']['tmp_name']))
+	if (isset($_FILES['reason_file']['tmp_name']) && !empty($_FILES['reason_file']['tmp_name']))
 	{
 		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, "http://frisenfeutig.nl/server/files.php?token=".$token);
+		curl_setopt($ch, CURLOPT_URL, "http://www.frisenfeutig.nl/server/files.php?token=".$token);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_POST, 1);
 		curl_setopt($ch, CURLOPT_TIMEOUT, 3600);
-		$args['file'] = new CurlFile($_FILES['reason_file']['tmp_name'],$_FILES['reason_file']['type'],$_FILES['reason_file']['name']);
+		$file = curl_file_create($_FILES['reason_file']['tmp_name'],$_FILES['reason_file']['type'],$_FILES['reason_file']['name']);
+		$args = array('file' => $file);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $args);
 		$file_location = curl_exec($ch);
 	}
@@ -53,7 +54,7 @@ else
 		?>
 			<label class="checkbox-inline">
 				<input type="checkbox" name="noob[]" value="<?=$n['id']?>" <?=($n['id']==$noob_id?'checked':'')?>>
-				<img class="img-responsive img-circle" src="<?=$n['img_url']?>" width="150">
+				<img class="img-responsive img-circle noob-face" src="<?=$n['img_url']?>" width="150">
 			</label>
 	<?php
 		}
