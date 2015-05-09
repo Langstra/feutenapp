@@ -6,7 +6,7 @@ angular.module('noob-app')
     .service('Camera', function ($cordovaCamera, IMG, $cordovaCapture) {
 
         return {
-            'take_picture': function () {
+            'take_picture': function (width, height) {
 
                 var deferred = $.Deferred();
 
@@ -16,10 +16,15 @@ angular.module('noob-app')
                     sourceType: Camera.PictureSourceType.CAMERA,
                     allowEdit: true,
                     encodingType: Camera.EncodingType.JPEG,
-                    targetWidth: IMG.width,
-                    targetHeight: IMG.height,
                     saveToPhotoAlbum: false
                 };
+
+                if(typeof width !== 'undefined') {
+                    options.targetWidth = width;
+                }
+                if(typeof height !== 'undefined') {
+                    options.targetHeight = height;
+                }
 
                 $cordovaCamera.getPicture(options).then(function(imageData) {
                     console.log(imageData);
@@ -32,17 +37,22 @@ angular.module('noob-app')
                 return deferred.promise();
             },
 
-            'from_gallery': function () {
+            'from_gallery': function (width, height) {
                 var deferred = $.Deferred();
 
                 var options = {
                     quality: 50,
                     destinationType: Camera.DestinationType.FILE_URI,
                     sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
-                    allowEdit: true,
-                    targetWidth: IMG.width,
-                    targetHeight: IMG.height
+                    allowEdit: true
                 };
+
+                if(typeof width !== 'undefined') {
+                    options.targetWidth = width;
+                }
+                if(typeof height !== 'undefined') {
+                    options.targetHeight = height;
+                }
 
                 $cordovaCamera.getPicture(options).then(function(imageData) {
                     deferred.resolve(imageData);

@@ -30,7 +30,7 @@ angular.module('noob-app')
                             deferred.resolve(data.result);
                         }
                     }).error(function (data, status, headers, config) {
-                        console.log('JsonFailed: ' + data);
+                        console.log('JsonFailed: ' + data + status + headers + config);
                         deferred.resolve(data);
                     });
             } else {

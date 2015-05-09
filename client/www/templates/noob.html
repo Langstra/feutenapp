@@ -6,8 +6,10 @@
                 on-refresh="refreshNoobActions()">
         </ion-refresher>
         <ion-list can-swipe="true">
-            <ion-item ng-repeat="action in noob_actions">
+            <ion-item ng-repeat="action in noob_actions" class="negative_reason item-icon-left" ng-click="view_proof(action.reason_file)">
 
+                <i ng-if="action.reason_file !== null" class="icon ion-android-image"></i>
+                <i ng-if="action.reason_file == null" class="icon ion-sad"></i>
                 <span class="negative_points">{{-action.amount}}</span>
                 {{action.reason_text}}
 

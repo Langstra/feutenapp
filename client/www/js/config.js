@@ -5,13 +5,13 @@ angular.module('config', [])
 
     .constant(
     'ENV', {
-        'apiServerLink': 'http://feuten.rienheuver.nl', // API link
-        'uploadLink': 'http://feuten.rienheuver.nl/files.php',
+        'apiServerLink': 'http://frisenfeutig.nl/server/', // API link
+        'uploadLink': 'http://frisenfeutig.nl/server/files.php',
         'debug': true
     })
 
     .constant(
     'IMG', {
-        'width': 2000, // API link
+        'width': 2000,
         'height': 2000
     })

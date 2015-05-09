@@ -3,7 +3,7 @@
  */
 angular.module('noob-app')
 
-    .controller('PointsCtrl', function($scope, $ionicActionSheet, $ionicLoading, $ionicPopup, $cordovaFileOpener2, $cordovaFile, $stateParams, Camera, NoobService) {
+    .controller('PointsCtrl', function($scope, $ionicActionSheet, $ionicLoading, $ionicPopup, $cordovaFileOpener2, $cordovaFile, $stateParams, $state, Camera, NoobService) {
 
         $scope.selected_noobs = [];
 
@@ -80,13 +80,17 @@ angular.module('noob-app')
                     function(result) {
                         $ionicLoading.hide();
                         if(result === true) {
+                            $scope.remove_proof();
+                            $scope.noob.points = 0;
+                            $scope.noob.reason_text = "";
                             $ionicPopup.alert({
-                                title: 'Succes',
+                                title: 'Punten toegevoegd',
                                 templateUrl: 'templates/popup/add_points_succes.html'
                             });
+                            $state.go('noobs');
                         } else {
                             $ionicPopup.alert({
-                                title: 'Fail',
+                                title: 'Mislukt feut!',
                                 templateUrl: 'templates/popup/add_points_fail.html'
                             });
                         }
@@ -94,7 +98,7 @@ angular.module('noob-app')
                     function() {
                         $ionicLoading.hide();
                         $ionicPopup.alert({
-                            title: 'Fail',
+                            title: 'Mislukt feut!',
                             templateUrl: 'templates/popup/add_points_fail.html'
                         });
                     }
@@ -104,13 +108,19 @@ angular.module('noob-app')
             $ionicLoading.show({
                 templateUrl: 'templates/loading/add_points.html'
             });
-            if($.isEmptyObject($scope.proof.lenght)) {
+            if($.isEmptyObject($scope.proof)) {
+                console.log("Geen proof");
                 add_points();
             } else {
+                console.log("Proof");
                 $cordovaFile.moveFile($scope.proof.filePath.substring(0, $scope.proof.filePath.lastIndexOf('/') + 1), $scope.proof.filePath.substring($scope.proof.filePath.lastIndexOf('/') + 1), cordova.file.externalDataDirectory, $scope.proof.filePath.substring($scope.proof.filePath.lastIndexOf('/') + 1)).then(function (result) {
 
                     NoobService.upload_media(result.toURL()).then(
-                        add_points(result)
+                        function(result) {
+                            console.log("Upload finished: "+result.response);
+                            add_points(result);
+                        }
+
                     );
                 });
             }
