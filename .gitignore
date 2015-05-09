@@ -8,3 +8,4 @@ client/resources/
 client/.idea/workspace.xml
 client/*.apk
 client/*.keystore
+client/engine/
