@@ -16,7 +16,6 @@ echo $thispage->starting('De app','user');
 						<li>Deel uit je minpunten</li>
 					</ol>
 				</p>
-				<p><?=errormsg("De app is nog niet af, heb eens geduld feut.")?></p>
 			</div>
 		</div>
 	</div>

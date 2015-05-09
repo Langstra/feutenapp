@@ -166,8 +166,15 @@ $server = array(
 			$salt = 'frisenfruitig36';
 			$crypt_current_pass = crypt($params['current_password'],$salt);
 			$crypt_new_pass = crypt($params['new_password'],$salt);
-			q("UPDATE board_members SET password=? WHERE password=? AND id=?",array($crypt_new_pass,$crypt_current_pass,$user_data[0]['id']));
-			return true;
+			$check = q("UPDATE board_members SET password=? WHERE password=? AND id=?",array($crypt_new_pass,$crypt_current_pass,f($user_data)[0]['id']));
+			if (n($check)>0)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 		catch (PDOException $ex)
 		{
