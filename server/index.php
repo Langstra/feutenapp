@@ -1,7 +1,4 @@
 <?php
-error_reporting(E_ALL);
-ini_set("display_errors", 1);
-
 include('includes/start.php');
 $server = array(
 	'authenticate' => function($params) {
@@ -92,6 +89,19 @@ $server = array(
 			return false;
 		}
 	},
+	'get_board_members' => function($params) {
+		try
+		{
+			$data = q("SELECT id FROM associations WHERE id = (SELECT associations_id FROM board_members WHERE id = (SELECT board_members_id FROM auth_tokens WHERE token=?))",array($params['token']));
+			$association = f($data);
+			$board_members = q("SELECT board_members.id, username, IFNULL(SUM(amount),0) as total FROM board_members LEFT JOIN board_members_has_points ON board_members.id=board_members_has_points.board_members_id LEFT JOIN points ON board_members_has_points.points_id=points.id WHERE associations_id=? GROUP BY board_members.id",array($association[0]['id']));
+			return f($board_members);
+		}
+		catch (PDOException $ex)
+		{
+			return false;
+		}
+	},
 	'get_points' => function($params) {
 		try
 		{
@@ -100,7 +110,28 @@ $server = array(
 			$noobcheck = q("SELECT id FROM noobs WHERE associations_id=?",array($association[0]['id']));
 			if (n($noobcheck)>0)
 			{
-				$points = q("SELECT id, amount, reason_text, reason_file, create_time FROM points WHERE id IN (SELECT points_id FROM noobs_has_points WHERE noobs_id=?)",array($params['noob_id']));
+				$points = q("SELECT points.id, amount, reason_text, reason_file, create_time, username as board_member FROM points LEFT JOIN board_members_has_points ON points.id=board_members_has_points.points_id LEFT JOIN board_members ON board_members_has_points.board_members_id=board_members.id WHERE points.id IN (SELECT points_id FROM noobs_has_points WHERE noobs_id=?)",array($params['noob_id']));
+				return f($points);
+			}
+			else
+			{
+				return false;
+			}
+		}
+		catch (PDOException $ex)
+		{
+			return false;
+		}
+	},
+	'get_dispense_points' => function($params) {
+		try
+		{
+			$data = q("SELECT id FROM associations WHERE id = (SELECT associations_id FROM board_members WHERE id = (SELECT board_members_id FROM auth_tokens WHERE token=?))",array($params['token']));
+			$association = f($data);
+			$board_membercheck = q("SELECT id FROM board_members WHERE associations_id=?",array($association[0]['id']));
+			if (n($board_membercheck)>0)
+			{
+				$points = q("SELECT id, amount, reason_text, reason_file, create_time FROM points WHERE id IN (SELECT points_id FROM board_members_has_points WHERE board_members_id=?)",array($params['board_member_id']));
 				return f($points);
 			}
 			else

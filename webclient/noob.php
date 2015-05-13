@@ -39,6 +39,7 @@ echo $thispage->starting('Punten van '.$noob['name'],'user');
 			<div id="collapse<?=$p['id']?>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading<?=$p['id']?>">
 				<div class="panel-body">
 				<p>Verdient op <?=date('d-m-Y H:i',$p['create_time'])?></p>
+				<p>Uitgedeeld door <?=ucfirst($p['board_member'])?></p>
 				<img class="img-responsive noob-img" src="<?=$p['reason_file']?>">
 				</div>
 			</div>

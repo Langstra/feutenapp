@@ -34,7 +34,7 @@ class page
 
 		$template = file_get_contents($file);
 		$tags = array('[$base]','[$username]','[$association_name]');
-		$replaces = array('http://'.$_SERVER['SERVER_NAME'].'/',$this->username, $this->association_name);
+		$replaces = array('http://'.$_SERVER['SERVER_NAME'].'/',ucfirst($this->username), $this->association_name);
 		$template = str_replace($tags,$replaces,$template);
 
 		$template = explode('[$split]',$template);

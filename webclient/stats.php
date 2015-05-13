@@ -4,8 +4,10 @@ echo $thispage->starting('Statistieken','user');
 
 // Data gathering
 $noobs = $connection->sendRequest('get_noobs', array('token'=>$token));
+$board_members = $connection->sendRequest('get_board_members', array('token'=>$token));
 $days = $connection->sendRequest('get_point_days',array('token'=>$token));
 $noobs_array;
+$board_members_array;
 if ($noobs->result)
 {
 	$biggest_noob = $smallest_noob = $noobs->result[0];
@@ -22,6 +24,11 @@ if ($noobs->result)
 		$points = $connection->sendRequest('get_points',array('token'=>$token,'noob_id'=>$n['id']));
 		$noobs_array[$n['id']] = $points->result;
 	}
+	foreach ($board_members->result as $b)
+	{
+		$dispense_points = $connection->sendRequest('get_dispense_points',array('token'=>$token,'board_member_id'=>$b['id']));
+		$board_members_array[$b['id']] = $dispense_points->result;
+	}
 	?>
 	<div class="row">
 		<div class="col-md-6">
@@ -36,9 +43,107 @@ if ($noobs->result)
 		</div>
 	</div>
 	<div class="row">
-	<!-- Pie chart of points -->
-		<div id="donutchart" class="col-md-6" style="height: 400px;"></div>
+	<!-- Pie chart of board_members -->
+		<div id="dispense_piechart" class="col-md-6" style="height: 400px;"></div>
 		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+		<script type="text/javascript">
+			google.load("visualization", "1", {packages:["corechart"]});
+			google.setOnLoadCallback(drawChart);
+			function drawChart()
+			{
+				var data = google.visualization.arrayToDataTable([
+					['Bestuurder', 'Aantal uitgedeelde minpunten'],
+					<?php
+					foreach ($board_members->result as $b)
+					{
+						if ($b['total'] >= 0)
+						{
+							echo "['".$b['username']."',	".$b['total']."],
+							";
+						}
+					}
+					?>
+				]);
+
+				var options = {
+					title: 'Verdeling uitdelen onder het bestuur',
+					pieHole: 0.4,
+				};
+
+				var chart = new google.visualization.PieChart(document.getElementById('dispense_piechart'));
+				chart.draw(data, options);
+			}
+		</script>
+		<!-- Timeline of board_members -->
+		<div id="dispense_timeline" class="col-md-6" style="height: 400px;"></div>
+		<script type="text/javascript">
+			google.load('visualization', '1', {packages: ['corechart', 'line']});
+			google.setOnLoadCallback(drawBackgroundColor);
+
+			function drawBackgroundColor()
+			{
+				var data = new google.visualization.DataTable();
+				data.addColumn('date', 'Dag');
+				<?php
+				foreach ($board_members->result as $b)
+				{
+					echo "data.addColumn('number', '".$b['username']."');
+					";
+				}
+				?>
+
+				data.addRows([
+				<?php
+				$output = '';
+				$board_member_totals = array();
+				foreach ($days->result as $d)
+				{
+					$day = explode('-',$d['day']);
+					$row = '[new Date('.$day[0].','.$day[1].','.$day[2].'),';
+					foreach ($board_members->result as $b)
+					{
+						if (array_key_exists($b['id'],$board_member_totals))
+						{
+							$amount = $board_member_totals[$b['id']];
+						}
+						else
+						{
+							$amount = 0;
+						}
+						foreach ($board_members_array[$b['id']] as $point)
+						{
+							if (date('Y-m-d',$point['create_time']) == $d['day'])
+							{
+								$amount += $point['amount'];
+							}
+						}
+						$board_member_totals[$b['id']] = $amount;
+						$row .= $amount.',';
+					}
+					$output .= substr($row,0,strlen($row)-1).'],
+					';
+				}
+				echo substr($output,0,strlen($output)-1);
+				?>
+				]);
+
+				var options = {
+					hAxis: {
+						title: 'Tijd'
+					},
+					vAxis: {
+						title: 'Uitgedeelde minpunten'
+					}
+				};
+
+				var chart = new google.visualization.LineChart(document.getElementById('dispense_timeline'));
+				chart.draw(data, options);
+			}
+		</script>
+	</div>
+	<div class="row">
+	<!-- Pie chart of noobs -->
+		<div id="receive_piechart" class="col-md-6" style="height: 400px;"></div>
 		<script type="text/javascript">
 			google.load("visualization", "1", {packages:["corechart"]});
 			google.setOnLoadCallback(drawChart);
@@ -59,17 +164,17 @@ if ($noobs->result)
 				]);
 
 				var options = {
-					title: 'Verdeling onder het kb',
+					title: 'Verdeling minpunten onder het kb',
 					pieHole: 0.4,
 				};
 
-				var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+				var chart = new google.visualization.PieChart(document.getElementById('receive_piechart'));
 				chart.draw(data, options);
 			}
 		</script>
 
-		<!-- Timeline of points -->
-		<div id="chart_div" class="col-md-6" style="height: 400px;"></div>
+		<!-- Timeline of noobs -->
+		<div id="receive_timeline" class="col-md-6" style="height: 400px;"></div>
 		<script type="text/javascript">
 			google.load('visualization', '1', {packages: ['corechart', 'line']});
 			google.setOnLoadCallback(drawBackgroundColor);
@@ -126,11 +231,11 @@ if ($noobs->result)
 						title: 'Tijd'
 					},
 					vAxis: {
-						title: 'Minpunten'
+						title: 'Verdiende minpunten'
 					}
 				};
 
-				var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+				var chart = new google.visualization.LineChart(document.getElementById('receive_timeline'));
 				chart.draw(data, options);
 			}
 		</script>
